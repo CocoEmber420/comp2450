@@ -37,28 +37,24 @@ const Monster* linearSearch(const std::vector<Monster>& bestiary,
 }
 
 const Monster* binarySearch(const std::vector<Monster>& bestiary,
-                            const std::string&         name) {
-    // TODO Floor 1 (Wed): iterative binary search.
-    //   PRECONDITION: bestiary is sorted ascending by name.
-    //
-    // Think before you type:
-    //   - Decide your invariant FIRST, then write code: does `high` mean
-    //     "the last valid index" (closed range, [low, high]) or "one past
-    //     the last valid index" (half-open, [low, high))? Pick one. Every
-    //     off-by-one bug starts with mixing the two.
-    //   - `std::size_t` is UNSIGNED. If your search range shrinks to empty
-    //     and you compute `high - 1`, does that value wrap around to a
-    //     huge number? Try in your head: what happens on `search Aardvark`
-    //     when Aardvark comes before every monster? Does your loop end?
-    //   - A name comparison has THREE outcomes: equal, less, greater. Each
-    //     goes in a different direction. If you collapse two branches into
-    //     one (e.g., an `if/else` instead of three cases), you've probably
-    //     broken binary search. Write all three explicitly.
-    //   - Middle index: `(low + high) / 2` is textbook but can overflow for
-    //     huge N. `low + (high - low) / 2` is the safe version. Write the
-    //     safe one — it's free, and it's a habit worth building.
-    (void)bestiary;
-    (void)name;
+                            const std::string& name) {
+    
+    int low = 0, high = bestiary.size(), mid;
+
+    while (low < high) {
+        mid = low + ((high - low) / 2);
+		const std::string& currentName = bestiary[mid].name;
+        if (currentName == name) {
+            return &bestiary[mid];
+        }
+        else if (currentName < name) {
+            low = mid + 1;
+        }
+        else {
+            high = mid;
+        }
+    }
+
     return nullptr;
 }
 
@@ -97,7 +93,7 @@ const Monster* findMonster(const std::vector<Monster>& bestiary,
     //   - At N=100,000, does it matter? By how much?
     //   - This is a JUDGMENT, not a fact. Whatever you pick, write WHY in
     //     your commit message. That reasoning is the graded artifact.
-    return linearSearch(bestiary, name);
+    return binarySearch(bestiary, name);
 }
 
 }
