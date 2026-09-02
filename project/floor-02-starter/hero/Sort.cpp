@@ -30,6 +30,7 @@ namespace dungeon {
 // ---- 1. Merge sort ------------------------------------------------------
 
 namespace {
+    //merge sort
     static void merge(std::vector<Item>& v, std::size_t lo, std::size_t mid, std::size_t hi, const Comparator& cmp) {
         std::vector<Item> scratch;
         std::size_t i = lo, j = mid;
@@ -69,6 +70,32 @@ namespace {
         mergeSortImpl(v, lo, mid, cmp);
         mergeSortImpl(v, mid, hi, cmp);
         merge(v, lo, mid, hi, cmp);
+    }
+
+    //quicksort
+    static std::size_t partition(std::vector<Item>& v, std::size_t lo, std::size_t hi, const Comparator& cmp) {
+        std::size_t mid = lo + (hi - lo) / 2;
+        std::swap(v[mid], v[hi]);
+        const Item pivot = v[hi];
+        //lomuto assumes the pivot lives at high, so by moving our pivot there we can follow classic lomuto
+
+        //lomuto scan
+        std::size_t store = lo;
+        //[low, store) --> strictly LESS than the pivot
+        //[store, high) --> >= pivot
+        for (std::size_t i = lo; i < hi; ++i) {
+            if (cmp(v[i], pivot)) {
+                std::swap(v[store], v[i]);
+                ++store;
+            }
+        }
+
+        std::swap(v[store], v[hi]);
+        return store;
+    }
+
+    static void quicksortImpl(std::vector<Item>& v, std::size_t lo, std::size_t hi, const Comparator& cmp) {
+
     }
 }
 
