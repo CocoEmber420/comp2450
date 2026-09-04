@@ -1,0 +1,9 @@
+comparator -- a function (in C++, lambda)
+does a come strictly before b?
+EX:
+cmp(a, b) == true if a (strictly) < b
+cmp(a, b) == false if a >= b
+*strict weak ordering*
+
+python
+sorted(x, key = fn)
