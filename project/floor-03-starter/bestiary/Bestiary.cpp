@@ -8,8 +8,8 @@
 
 namespace dungeon {
 
-Bag<Monster> loadBestiary(const std::string& path) {
-    Bag<Monster> result;
+std::vector<Monster> loadBestiary(const std::string& path) {
+    std::vector<Monster> result;
     std::ifstream in(path);
     if (!in) {
         std::cerr << "The Bestiary tablet is missing or unreadable: "
@@ -37,7 +37,7 @@ Bag<Monster> loadBestiary(const std::string& path) {
     return result;
 }
 
-void sortBestiary(Bag<Monster>& bestiary) {
+void sortBestiary(std::vector<Monster>& bestiary) {
     std::sort(bestiary.begin(), bestiary.end(),
               [](const Monster& a, const Monster& b) {
                   return a.name < b.name;

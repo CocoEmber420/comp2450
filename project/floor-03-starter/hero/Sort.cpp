@@ -10,7 +10,6 @@
 #include "Sort.h"
 #include <algorithm>
 #include <sstream>
-#include "Bag.h"
 
 namespace dungeon {
 
@@ -24,7 +23,7 @@ namespace dungeon {
 
 namespace {
 
-void merge(Bag<Item>& v,
+void merge(std::vector<Item>& v,
            std::size_t lo, std::size_t mid, std::size_t hi,
            const Comparator& cmp) {
     // Copy both halves out. Merging in place is possible but much slower;
@@ -49,7 +48,7 @@ void merge(Bag<Item>& v,
     while (j < right.size()) v[k++] = right[j++];
 }
 
-void mergeSortImpl(Bag<Item>& v,
+void mergeSortImpl(std::vector<Item>& v,
                    std::size_t lo, std::size_t hi,
                    const Comparator& cmp) {
     // Base case for the half-open [lo, hi) form: zero or one element.
@@ -62,7 +61,7 @@ void mergeSortImpl(Bag<Item>& v,
 
 }  // anonymous namespace
 
-void mergeSort(Bag<Item>& inventory, const Comparator& cmp) {
+void mergeSort(std::vector<Item>& inventory, const Comparator& cmp) {
     mergeSortImpl(inventory, 0, inventory.size(), cmp);
 }
 
@@ -76,7 +75,7 @@ void mergeSort(Bag<Item>& inventory, const Comparator& cmp) {
 
 namespace {
 
-std::size_t partition(Bag<Item>& v,
+std::size_t partition(std::vector<Item>& v,
                       std::size_t lo, std::size_t hi,
                       const Comparator& cmp) {
     // Pick the MIDDLE element as pivot (the defense against sorted
@@ -97,7 +96,7 @@ std::size_t partition(Bag<Item>& v,
     return store;
 }
 
-void quicksortImpl(Bag<Item>& v,
+void quicksortImpl(std::vector<Item>& v,
                    std::size_t lo, std::size_t hi,
                    const Comparator& cmp) {
     if (lo >= hi) return;
@@ -110,7 +109,7 @@ void quicksortImpl(Bag<Item>& v,
 
 }  // anonymous namespace
 
-void quicksort(Bag<Item>& inventory, const Comparator& cmp) {
+void quicksort(std::vector<Item>& inventory, const Comparator& cmp) {
     if (inventory.size() < 2) return;
     quicksortImpl(inventory, 0, inventory.size() - 1, cmp);
 }

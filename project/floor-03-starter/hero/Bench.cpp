@@ -26,7 +26,7 @@
 #include <random>
 #include <sstream>
 #include <string>
-#include "Bag.h"
+#include <vector>
 
 namespace dungeon {
 
@@ -37,12 +37,13 @@ namespace {
 // the RNG with a FIXED value (0xC0FFEE). Determinism matters in a
 // benchmark — students on different machines should be comparing runs
 // on the SAME data, not on different random draws.
-Bag<Item> makeSynthetic(std::size_t n) {
+std::vector<Item> makeSynthetic(std::size_t n) {
     std::mt19937_64 rng(0xC0FFEE);  // 64-bit Mersenne Twister, fixed seed
     std::uniform_real_distribution<double> weightDist(0.1, 50.0);
     std::uniform_int_distribution<int>     valueDist(0, 1000);
 
-    Bag<Item> v;
+    std::vector<Item> v;
+    v.reserve(n);
     for (std::size_t i = 0; i < n; ++i) {
         std::ostringstream oss;
         oss << "Item_" << std::setfill('0') << std::setw(7) << i;
@@ -66,7 +67,7 @@ const Comparator kCmpWeight = [](const Item& a, const Item& b) {
 // and the total work degenerates from O(n log n) to O(n^2). Try
 // `benchmark sort --sorted --bad-pivot 10000` against a middle-pivot run
 // at the same size to feel it.
-void badQuicksortImpl(Bag<Item>& v,
+void badQuicksortImpl(std::vector<Item>& v,
                       std::size_t lo, std::size_t hi,
                       const Comparator& cmp) {
     // Recurse into the SMALLER side and iterate on the larger one. Naively
@@ -105,7 +106,7 @@ void badQuicksortImpl(Bag<Item>& v,
     }
 }
 
-void badQuicksort(Bag<Item>& v, const Comparator& cmp) {
+void badQuicksort(std::vector<Item>& v, const Comparator& cmp) {
     if (v.size() < 2) return;
     badQuicksortImpl(v, 0, v.size() - 1, cmp);
 }
@@ -126,17 +127,17 @@ static volatile const void* g_benchSink = nullptr;
 //
 // Notice also that the copy itself is OUTSIDE the timed region
 // (before `t0`). We are measuring the sort, not the memcpy.
-double avgMillis(const Bag<Item>& base,
-                 const std::function<void(Bag<Item>&)>& sortFn,
+double avgMillis(const std::vector<Item>& base,
+                 const std::function<void(std::vector<Item>&)>& sortFn,
                  std::size_t iterations) {
     double totalMs = 0.0;
     for (std::size_t i = 0; i < iterations; ++i) {
-        Bag<Item> v = base;      // fresh unsorted copy per run (untimed)
+        std::vector<Item> v = base;      // fresh unsorted copy per run (untimed)
         auto t0 = std::chrono::high_resolution_clock::now();
         sortFn(v);
         auto t1 = std::chrono::high_resolution_clock::now();
         totalMs += std::chrono::duration<double, std::milli>(t1 - t0).count();
-        if (!v.empty()) g_benchSink = &v[0];       // defeat dead-store elimination
+        g_benchSink = v.data();          // defeat dead-store elimination
     }
     return totalMs / static_cast<double>(iterations);
 }
@@ -159,22 +160,22 @@ void printRow(std::size_t n,
 void runSortBenchmark(std::size_t n,
                       SortBenchOptions opts,
                       std::size_t iterations) {
-    Bag<Item> base = makeSynthetic(n);
+    std::vector<Item> base = makeSynthetic(n);
     if (opts.presorted) {
         std::sort(base.begin(), base.end(), kCmpWeight);
     }
 
     double m  = avgMillis(base,
-                          [&](Bag<Item>& v) { mergeSort(v, kCmpWeight); },
+                          [&](std::vector<Item>& v) { mergeSort(v, kCmpWeight); },
                           iterations);
     double q  = avgMillis(base,
-                          [&](Bag<Item>& v) {
+                          [&](std::vector<Item>& v) {
                               if (opts.badPivot) badQuicksort(v, kCmpWeight);
                               else               quicksort(v, kCmpWeight);
                           },
                           iterations);
     double s  = avgMillis(base,
-                          [&](Bag<Item>& v) {
+                          [&](std::vector<Item>& v) {
                               std::sort(v.begin(), v.end(), kCmpWeight);
                           },
                           iterations);
