@@ -20,28 +20,28 @@
 
 namespace dungeon {
 
-class BagException : public std::exception {
-public:
-    // Built when someone indexes past the end of a Bag. Carries BOTH
-    // the bad index AND the actual size, so the error message can say
-    // exactly what went wrong ("index 99 out of bounds for size 5")
-    // instead of something vague like "bad index."
+    class BagException : public std::exception {
+    public:
+        // Built when someone indexes past the end of a Bag. Carries BOTH
+        // the bad index AND the actual size, so the error message can say
+        // exactly what went wrong ("index 99 out of bounds for size 5")
+        // instead of something vague like "bad index."
 
-    BagException(std::size_t bad_index, std::size_t bag_size) {
-        std::ostringstream oss;
-        oss << "index " << bad_index << " out of bounds for size " << bag_size;
-        msg_ = oss.str();
-    }
+        BagException(std::size_t bad_index, std::size_t bag_size) {
+            std::ostringstream oss;
+            oss << "index " << bad_index << " out of bounds for size " << bag_size;
+            msg_ = oss.str();
+        }
 
-    // Override the std::exception "what's wrong" virtual. MUST be
-    // noexcept to match the base class contract — a what() that throws
-    // inside a catch block is a particularly cursed kind of bug.
-    const char* what() const noexcept override {
-        return msg_.c_str();
-    }
+        // Override the std::exception "what's wrong" virtual. MUST be
+        // noexcept to match the base class contract — a what() that throws
+        // inside a catch block is a particularly cursed kind of bug.
+        const char* what() const noexcept override {
+            return msg_.c_str();
+        }
 
-private:
-    std::string msg_;
-};
+    private:
+        std::string msg_;
+    };
 
 }  // namespace dungeon

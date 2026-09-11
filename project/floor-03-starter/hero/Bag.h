@@ -35,100 +35,100 @@
 
 namespace dungeon {
 
-template <typename T>
-class Bag {
-public:
-    // ---- inspection ----------------------------------------------------
-    //
-    // Four questions every container has to answer. All can be one-line
-    // delegates to the underlying std::vector<T>. Resist the urge to
-    // write loops — vector already knows.
+    template <typename T>
+    class Bag {
+    public:
+        // ---- inspection ----------------------------------------------------
+        //
+        // Four questions every container has to answer. All can be one-line
+        // delegates to the underlying std::vector<T>. Resist the urge to
+        // write loops — vector already knows.
 
-    std::size_t size() const {
-        return data_.size();
-    }
-
-    bool empty() const {
-        return data_.empty();
-    }
-
-    // ---- access — unchecked --------------------------------------------
-    //
-    // operator[] does NOT bounds-check. It is the fast path. Callers
-    // who KNOW their index is in range use this — for instance, the
-    // body of a `for (size_t i = 0; i < bag.size(); ++i)` loop can't
-    // possibly be out of range. When the index came from USER INPUT,
-    // prefer at() (below).
-
-    const T& operator[](std::size_t i) const {
-        return data_[i];
-    }
-
-    T& operator[](std::size_t i) {
-        return data_[i];
-    }
-
-    // ---- access — checked ----------------------------------------------
-    //
-    // at() bounds-checks and THROWS a BagException when the caller asks
-    // for something impossible. Use this when the index came from user
-    // input — when the main loop handles `inspect 99` but the bag only
-    // holds five items, at() throws, the try/catch in main catches, the
-    // game keeps going.
-
-    const T& at(std::size_t i) const {
-        if (i >= size()) {
-            throw BagException(i, size());
+        std::size_t size() const {
+            return data_.size();
         }
-        return data_[i];
-    }
 
-    T& at(std::size_t i) {
-        if (i >= size()) {
-            throw BagException(i, size());
+        bool empty() const {
+            return data_.empty();
         }
-        return data_[i];
-    }
 
-    // ---- mutation ------------------------------------------------------
+        // ---- access — unchecked --------------------------------------------
+        //
+        // operator[] does NOT bounds-check. It is the fast path. Callers
+        // who KNOW their index is in range use this — for instance, the
+        // body of a `for (size_t i = 0; i < bag.size(); ++i)` loop can't
+        // possibly be out of range. When the index came from USER INPUT,
+        // prefer at() (below).
 
-    void push_back(const T& value) {
-        data_.push_back(value);
-    }
+        const T& operator[](std::size_t i) const {
+            return data_[i];
+        }
 
-    void clear() {
-        data_.clear();
-    }
+        T& operator[](std::size_t i) {
+            return data_[i];
+        }
 
-    // ---- iteration -----------------------------------------------------
-    //
-    // begin()/end() are what lets `for (auto& x : bag)` work AND lets
-    // std::sort / std::find / every STL algorithm work on a Bag. Delegate
-    // to the underlying vector's iterators.
-    //
-    // Why both const and non-const overloads? A function that takes
-    // `const Bag<T>&` (like findByName<T> does) only sees the const
-    // pair. A function that wants to MUTATE the bag sees the non-const
-    // pair. The compiler picks based on what kind of reference you have.
+        // ---- access — checked ----------------------------------------------
+        //
+        // at() bounds-checks and THROWS a BagException when the caller asks
+        // for something impossible. Use this when the index came from user
+        // input — when the main loop handles `inspect 99` but the bag only
+        // holds five items, at() throws, the try/catch in main catches, the
+        // game keeps going.
 
-    using iterator       = typename std::vector<T>::iterator;
-    using const_iterator = typename std::vector<T>::const_iterator;
+        const T& at(std::size_t i) const {
+            if (i >= size()) {
+                throw BagException(i, size());
+            }
+            return data_[i];
+        }
 
-    iterator begin() {
-        return data_.begin();
-    }
-    iterator end() {
-        return data_.end();
-    }
-    const_iterator begin() const {
-        return data_.begin();
-    }
-    const_iterator end() const {
-        return data_.end();
-    }
+        T& at(std::size_t i) {
+            if (i >= size()) {
+                throw BagException(i, size());
+            }
+            return data_[i];
+        }
 
-private:
-    std::vector<T> data_;
-};
+        // ---- mutation ------------------------------------------------------
+
+        void push_back(const T& value) {
+            data_.push_back(value);
+        }
+
+        void clear() {
+            data_.clear();
+        }
+
+        // ---- iteration -----------------------------------------------------
+        //
+        // begin()/end() are what lets `for (auto& x : bag)` work AND lets
+        // std::sort / std::find / every STL algorithm work on a Bag. Delegate
+        // to the underlying vector's iterators.
+        //
+        // Why both const and non-const overloads? A function that takes
+        // `const Bag<T>&` (like findByName<T> does) only sees the const
+        // pair. A function that wants to MUTATE the bag sees the non-const
+        // pair. The compiler picks based on what kind of reference you have.
+
+        using iterator = typename std::vector<T>::iterator;
+        using const_iterator = typename std::vector<T>::const_iterator;
+
+        iterator begin() {
+            return data_.begin();
+        }
+        iterator end() {
+            return data_.end();
+        }
+        const_iterator begin() const {
+            return data_.begin();
+        }
+        const_iterator end() const {
+            return data_.end();
+        }
+
+    private:
+        std::vector<T> data_;
+    };
 
 }  // namespace dungeon
