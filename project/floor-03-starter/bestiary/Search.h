@@ -28,7 +28,7 @@ namespace dungeon {
 // ---- Floor 1 reference: Monster-specific searches ---------------------
 //
 // Linear scan. Works on any order.    O(n).
-const Monster* linearSearch(Bag<Monster>& bestiary,
+const Monster* linearSearch(const Bag<Monster>& bestiary,
                             const std::string&         name);
 
 // Iterative binary search.            O(log n). Pre: sorted.
