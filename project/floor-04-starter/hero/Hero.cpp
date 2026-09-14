@@ -62,29 +62,17 @@ void printInventory(const Hero& hero) {
 
 // Render the most recent `n` event-log entries, newest first. If n is 0
 // or larger than the chain length, prints the whole chain.
-//
-// TODO Floor 4 (Monday) — replace the body with a hand-walk of the chain:
-//
-//     std::size_t printed = 0;
-//     for (const auto* p = hero.eventLog.head();
-//          p != nullptr && (n == 0 || printed < n);
-//          p = p->next, ++printed) {
-//         std::cout << "  " << std::setw(2) << std::right
-//                   << (printed + 1) << ".  " << p->data << "\n";
-//     }
-//     std::cout << "  (newest first; chain length "
-//               << hero.eventLog.size() << ")\n";
-//
-// The starter body below prints a placeholder so the build is green
-// and `log` doesn't crash on day zero. Replace it.
 void printLog(const Hero& hero, std::size_t n) {
-    (void)n;
     if (hero.eventLog.empty()) {
-        std::cout << "  (the chain is empty — nothing to remember yet)\n";
+        std::cout << "The chain is empty - nothing to remember yet.\n";
         return;
     }
-    std::cout << "  (printLog not yet implemented — see hero/Hero.cpp)\n"
-              << "  (chain length " << hero.eventLog.size() << ")\n";
+
+    std::size_t printed = 0;
+    for (const auto* p = hero.eventLog.head(); p != nullptr && (n == 0 || printed < n); p = p->next, ++printed) {
+        std::cout << "  " << std::setw(2) << std::right << (printed + 1) << ".  " << p->data << "\n";
+    }
+    std::cout << "  (newest first; chain length " << hero.eventLog.size() << ")\n";
 }
 
 }  // namespace dungeon
