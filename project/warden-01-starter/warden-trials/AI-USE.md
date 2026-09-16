@@ -11,7 +11,11 @@ Example entries:
 
 ## Trial I — The Foundations Brief
 
-(your declaration)
+*Trial I — used Claude to double-check my Big-O claim on Q2 after I wrote it; it mostly agreed but caught one mistake... I hadn't noticed that the
+	inventory was sorted by value instead of name, so binary wouldn't work at all. I didn't change the first part of my answer much, but I added
+	the last sentences because of this.*
+*Trial I - asked Claude to re-explain Lambda functions to me like a third grader because I never really took the time to understand them before. I
+	used my understanding to write my answer, but I didn't check or do anything else with it.*
 
 ## Trial II — The Critique
 
