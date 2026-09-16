@@ -21,7 +21,8 @@ Example entries:
 
 This trial **requires** AI use. The full prompt + reply + critique are in `trial-2-critique.md`. If you used a different LLM for any other reason on this trial (e.g., to look up syntax), declare it here:
 
-(your declaration)
+*Trial 2 - asked Claude to explain what <optional> was and why it used it, as well as what nullopt is. It affected my answer (I added quotes around its
+	definition), but I honestly didn't gain much from it.*
 
 ## Trial III — The Encounter
 
