@@ -78,25 +78,8 @@ public:
     // -----------------------------------------------------------------
     Chain() = default;
 
-    // TODO Floor 4 (Wednesday) — write the destructor.
-    //
-    // Walk the chain from head to tail. For each node: SAVE the next
-    // pointer FIRST, then delete the current node, then advance.
-    //
-    //     Node* p = head_;
-    //     while (p != nullptr) {
-    //         Node* n = p->next;   // <- save BEFORE delete; you cannot
-    //                              //    read p->next after delete p.
-    //         delete p;            // runs ~Node(), bumps the counter.
-    //         p = n;
-    //     }
-    //     head_ = nullptr;
-    //     size_ = 0;
-    //
-    // (clear() does the same job — implement it below and call it from
-    // the destructor body if you prefer one source of truth.)
     ~Chain() {
-        // TODO Floor 4 (Wednesday)
+        clear();
     }
 
     // -----------------------------------------------------------------
@@ -157,10 +140,15 @@ public:
     }
 
     // Walk and delete every node. Leaves the chain empty.
-    //
-    // TODO Floor 4 (Wednesday). Same loop as the destructor.
     void clear() {
-        // TODO Wednesday
+        Node* p = head_;
+        while (p != nullptr) {
+            Node* n = p->next;   // <- save BEFORE delete; you cannot read p->next after delete p.
+            delete p; // runs ~Node(), bumps the counter.
+            p = n;
+        }
+        head_ = nullptr;
+        size_ = 0;
     }
 
 private:
