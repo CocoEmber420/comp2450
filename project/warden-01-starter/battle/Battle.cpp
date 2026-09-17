@@ -85,6 +85,12 @@ constexpr int kWardenAttackDmg = 4;   // warden's retaliation damage
 
 }  // anonymous namespace
 
+void printStats(int pHP, int wHP);
+void printBattleMenu();
+void attackSequence(int& pHP, int& wHP);
+void inspectWarden(int wHP, const int maxWHP);
+void itemUse();
+
 BattleOutcome runWardenBattle(Hero& hero) {
     // TODO — write the boss battle. Suggested outline (yours to refactor):
     //
@@ -127,10 +133,86 @@ BattleOutcome runWardenBattle(Hero& hero) {
     //
     // Replace the placeholder body below.
 
-    (void)hero;
-    std::cout << "  (Battle scaffold — runWardenBattle is not yet written.)\n"
-              << "  (Open battle/Battle.cpp and follow the TODOs.)\n";
-    return BattleOutcome::Fled;
+    int playerHP = kPlayerStartHP;
+    int wardenHP = kWardenStartHP;
+
+    while (playerHP > 0 && wardenHP > 0) {
+        //print turn and HP
+        printStats(playerHP, wardenHP);
+        
+        //exception catcher
+        try {
+            int menuChoice;
+            
+            //print menu
+            printBattleMenu();
+
+            //get user choice
+            std::cout << "> ";
+            std::cin >> menuChoice;
+            switch (menuChoice) {
+                case 1:
+                    attackSequence(playerHP, wardenHP);
+                    break;
+                case 2:
+                    itemUse();
+                    break;
+                case 3:
+                    inspectWarden(wardenHP, kWardenStartHP);
+                    break;
+                case 4:
+                    return BattleOutcome::Fled;
+                    break;
+                default:
+                    throw BattleException("Wrong input, must be 1-4");
+            }
+        }
+        catch (const std::exception& excp) {
+            std::cout << "  " << excp.what() << "  Try again.\n";
+            continue;
+        }
+    }
+
+
+    if (wardenHP <= 0) {
+        std::cout << "Your HP : " << playerHP << "\nWarden's HP: " << wardenHP << "\n";
+        return BattleOutcome::Victory;
+    }
+    else {
+        std::cout << "Your HP : " << playerHP << "\nWarden's HP: " << wardenHP << "\n";
+        return BattleOutcome::Defeat;
+    }
+}
+
+//prints turn and HP stats
+void printStats(int pHP, int wHP) {
+    std::cout << "\n-- Your turn --\nYour HP: " << pHP << "\nWarden's HP: " << wHP;
+}
+
+//prints menu
+void printBattleMenu() {
+    std::cout << "\n1. Attack\n2. Use item\n3. Inspect Warden\n4. Flee\n";
+}
+
+//Menu choice 1 - attack
+void attackSequence(int& pHP, int& wHP) {
+    wHP -= kPlayerAttackDmg;
+    std::cout << "You strike for 6.  Warden HP -> " << wHP << "\n";
+        
+    if (wHP > 0) {
+        pHP -= kWardenAttackDmg;
+        std::cout << "The Warden retaliates for 4.  Your HP -> " << pHP << "\n";
+    }
+}
+
+//menu choice 2 - item
+void itemUse() {
+    std::cout << "You would like to use an item but have currently forgotten how... :)\n";
+}
+
+//menu choice 3 - inspect
+void inspectWarden(int wHP, const int maxWHP) {
+    std::cout << "Warden of the Foundations.\nHP " << wHP << " / " << maxWHP << ".\nNo visible weakness.\n(free action)\n";
 }
 
 }  // namespace dungeon

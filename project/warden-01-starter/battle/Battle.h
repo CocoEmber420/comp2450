@@ -39,6 +39,13 @@ enum class BattleOutcome {
     Fled        // player chose Flee
 };
 
+//helper functions
+void printStats(int pHP, int wHP);
+void printBattleMenu();
+void attackSequence(int& pHP, int& wHP);
+void inspectWarden(int wHP, const int maxWHP);
+void itemUse();
+
 // Run the Warden of the Foundations encounter.
 //   - Reads choices from std::cin.
 //   - Prints play-by-play to std::cout.
