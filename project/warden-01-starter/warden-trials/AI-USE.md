@@ -26,6 +26,7 @@ This trial **requires** AI use. The full prompt + reply + critique are in `trial
 
 ## Trial III — The Encounter
 
-(your declaration)
+*Trial 3 - asked Claude what to put into a cin.ignore(___, "\n") to ignore the string input. std::numeric_limits<std::streamsize>::max() was it's answer.
+	I researched it some more, and it seemed like the normal way to do it, I had just forgotten. I used it on line 145.*
 
 The two functions in your battle code that you wrote *without* AI assistance are named in `encounter-notes.md`. Friday's quiz pulls from those.

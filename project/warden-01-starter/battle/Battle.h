@@ -13,6 +13,8 @@
 
 #include <exception>
 #include <string>
+#include <limits>
+#include <algorithm>
 
 #include "../hero/Hero.h"
 
@@ -41,10 +43,12 @@ enum class BattleOutcome {
 
 //helper functions
 void printStats(int pHP, int wHP);
-void printBattleMenu();
+void printBattleMenu(const std::vector<std::string>& menuItems);
 void attackSequence(int& pHP, int& wHP);
+void itemUse(Hero& hero, int& pHP, int& wHP);
+bool sortInventory(Hero& hero);
+void itemChoice(std::string name, const Item*& it, int& pHP, int& wHP);
 void inspectWarden(int wHP, const int maxWHP);
-void itemUse();
 
 // Run the Warden of the Foundations encounter.
 //   - Reads choices from std::cin.

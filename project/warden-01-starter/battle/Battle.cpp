@@ -63,6 +63,8 @@
 
 #include <iostream>
 #include <string>
+#include <limits>
+#include <algorithm>
 
 #include "../hero/Bag.h"
 #include "../hero/BagException.h"
@@ -80,61 +82,23 @@ namespace {
 // =====================================================================
 constexpr int kPlayerStartHP   = 30;
 constexpr int kWardenStartHP   = 50;
-constexpr int kPlayerAttackDmg = 6;   // damage per Attack action
-constexpr int kWardenAttackDmg = 4;   // warden's retaliation damage
+constexpr int kPlayerAttackDmg = 4;   // damage per Attack action
+constexpr int kWardenAttackDmg = 6;   // warden's retaliation damage
 
 }  // anonymous namespace
 
 void printStats(int pHP, int wHP);
-void printBattleMenu();
+void printBattleMenu(const std::vector<std::string>& menuItems);
 void attackSequence(int& pHP, int& wHP);
+void itemUse(Hero& hero, int& pHP, int& wHP);
+bool sortInventory(Hero& hero);
+void itemChoice(std::string name, const Item*& it, int& pHP, int& wHP);
 void inspectWarden(int wHP, const int maxWHP);
-void itemUse();
 
 BattleOutcome runWardenBattle(Hero& hero) {
-    // TODO — write the boss battle. Suggested outline (yours to refactor):
-    //
-    //   int playerHP = kPlayerStartHP;
-    //   int wardenHP = kWardenStartHP;
-    //
-    //   while (playerHP > 0 && wardenHP > 0) {
-    //       print state (HPs, last action — your choice).
-    //
-    //       try {
-    //           show menu (using your F0 container of actions).
-    //           read input.
-    //           if invalid → throw BattleException(...) [F3 — throw].
-    //           dispatch on the action:
-    //               Attack:    wardenHP -= kPlayerAttackDmg;
-    //                          if wardenHP > 0, playerHP -= kWardenAttackDmg.
-    //               Use item:  std::sort(hero.inventory.begin(),
-    //                                    hero.inventory.end(),
-    //                                    yourComparator)             [F2].
-    //                          show sorted menu, read item name.
-    //                          const Item* it = findByName<Item>(
-    //                              hero.inventory, name);             [F1]
-    //                          if (!it) throw BattleException(...);   [F3]
-    //                          apply effect (heal? buff next attack? …).
-    //                          end turn.
-    //               Inspect:   print warden state. FREE — do NOT end turn.
-    //               Flee:      return BattleOutcome::Fled.
-    //       }
-    //       catch (const std::exception& e) {                        [F3 — catch]
-    //           std::cout << "  " << e.what() << "  Try again.\n";
-    //           continue;   // re-prompt; turn does NOT advance
-    //       }
-    //   }
-    //
-    //   return wardenHP <= 0 ? BattleOutcome::Victory
-    //                        : BattleOutcome::Defeat;
-    //
-    // Decompose into helpers however you want. The contract main.cpp
-    // depends on is just runWardenBattle(Hero&).
-    //
-    // Replace the placeholder body below.
-
     int playerHP = kPlayerStartHP;
     int wardenHP = kWardenStartHP;
+    bool sorted = false;
 
     while (playerHP > 0 && wardenHP > 0) {
         //print turn and HP
@@ -142,20 +106,26 @@ BattleOutcome runWardenBattle(Hero& hero) {
         
         //exception catcher
         try {
-            int menuChoice;
+            size_t menuChoice = 0;
             
             //print menu
-            printBattleMenu();
+            //F0 (ADT): a vector fits better than something like a dictionary (no key lookup needed, 
+            //just sequential display) or a priority queue (no priority, just a fixed order) since I 
+            //only need ordered iteration to print the four options. It's also helpful because I can 
+            //use it to check if the input is valid with .size().
+            std::vector<std::string> menuItems = { "Attack", "Use item", "Inspect Warden", "Flee" };
+            printBattleMenu(menuItems);
 
             //get user choice
             std::cout << "> ";
             std::cin >> menuChoice;
-            switch (menuChoice) {
+            if (menuChoice > 0 && menuChoice <= menuItems.size()) {
+                switch (menuChoice) {
                 case 1:
                     attackSequence(playerHP, wardenHP);
                     break;
                 case 2:
-                    itemUse();
+                    itemUse(hero, playerHP, wardenHP);
                     break;
                 case 3:
                     inspectWarden(wardenHP, kWardenStartHP);
@@ -164,9 +134,19 @@ BattleOutcome runWardenBattle(Hero& hero) {
                     return BattleOutcome::Fled;
                     break;
                 default:
-                    throw BattleException("Wrong input, must be 1-4");
+                    throw BattleException("Invalid input, must be 1-4.");
+                }
+            }
+            else if (menuChoice > menuItems.size()) {
+                throw BagException(menuChoice, menuItems.size());
+            }
+            else {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                throw BattleException("Invalid input, must be a number between 1-4.");
             }
         }
+        //F3 (exceptions): catches the battle exception (actually all exceptions)
         catch (const std::exception& excp) {
             std::cout << "  " << excp.what() << "  Try again.\n";
             continue;
@@ -190,24 +170,111 @@ void printStats(int pHP, int wHP) {
 }
 
 //prints menu
-void printBattleMenu() {
-    std::cout << "\n1. Attack\n2. Use item\n3. Inspect Warden\n4. Flee\n";
+void printBattleMenu(const std::vector<std::string>& menuItems) {
+    std::cout << "\n";
+    for (size_t i = 0; i < menuItems.size(); i++) {
+        std::cout << (i + 1) << ". " << menuItems[i] << "\n";
+    }
 }
 
 //Menu choice 1 - attack
 void attackSequence(int& pHP, int& wHP) {
     wHP -= kPlayerAttackDmg;
-    std::cout << "You strike for 6.  Warden HP -> " << wHP << "\n";
+    std::cout << "You strike for " << kPlayerAttackDmg << ". Warden HP -> " << wHP << "\n";
         
     if (wHP > 0) {
         pHP -= kWardenAttackDmg;
-        std::cout << "The Warden retaliates for 4.  Your HP -> " << pHP << "\n";
+        std::cout << "The Warden retaliates for " << kWardenAttackDmg << ". Your HP -> " << pHP << "\n";
     }
 }
 
 //menu choice 2 - item
-void itemUse() {
-    std::cout << "You would like to use an item but have currently forgotten how... :)\n";
+void itemUse(Hero& hero, int& pHP, int& wHP) {
+    //sort and display
+    sortInventory(hero);
+    std::cout << "Type the name of the item you would like to use: \n";
+    printInventory(hero);
+    std::cout << "> ";
+
+    //get user input and find item
+    bool input = false;
+    const Item* it = nullptr;
+    std::string name;
+    std::cin.ignore();
+    
+    while (!input) {
+        std::getline(std::cin, name);
+        if (name.empty()) {
+            std::cout << "What Item would you like to use?\n> ";
+        }
+        else {
+            //F1 (search): uses findByName<Item> against hero.inventory
+            it = findByName<Item>(hero.inventory, name);
+            if (!it) {
+                std::cout << "Invalid choice, type the name of one of your items.\n> ";
+            }
+            else {
+                input = true;
+            }
+        }
+    }
+
+    //display based on choice
+    itemChoice(name, it, pHP, wHP); 
+    std::cout << "[ENTER]";
+    std::cin.get();
+}
+
+//menu choice 2b - item sort by value
+bool sortInventory(Hero& hero) {
+    //F2 (sort): I sorted by value with std::sort
+    Comparator cmp = [](const Item& a, const Item& b) { return a.value < b.value; };
+    std::sort(hero.inventory.begin(), hero.inventory.end(), cmp);
+    return true;
+}
+
+//menu choice 2c - item choice print
+void itemChoice(std::string name, const Item*& it, int& pHP, int& wHP) {
+    if (name == "Rusty sword") {
+        std::cout << "The sword is coated in rust. You must swing carefully so you don't cut yourself.\n";
+        wHP -= kPlayerAttackDmg + it->value;
+        std::cout << "You strike for " << (kPlayerAttackDmg + it->value) << ". Warden HP -> " << wHP << "\n";
+        if (wHP > 0) {
+            pHP -= kWardenAttackDmg;
+            std::cout << "The Warden retaliates for " << kWardenAttackDmg << ". Your HP -> " << pHP << "\n";
+        }
+    }
+    else if (name == "Healing potion") {
+        std::cout << "\nHmm, something actually useful.\n";
+        pHP += it->value;
+        std::cout << "You have healed " << it->value << " HP. Your HP -> " << pHP << "\n";
+        pHP -= kWardenAttackDmg;
+        std::cout << "You throw the empty bottle at the Warden, but he doesn't flinch.\n"
+            << "The Warden retaliates for " << kWardenAttackDmg << ". Your HP -> " << pHP << "\n";
+    }
+    else if (name == "Iron key") {
+        std::cout << "\nBro, what's the key going to do for you?\n";
+        pHP -= kWardenAttackDmg;
+        std::cout << "While you were trying to think of options, the Warden prepared his next attack.\n"
+            << "The Warden laughs at you for " << kWardenAttackDmg << " (emotional damage). Your HP -> " << pHP << "\n";
+    }
+    else if (name == "Loaf of bread") {
+        std::cout << "\nThe bread is a little old, but you can eat it if you wish.\n";
+        pHP += it->value;
+        std::cout << "You have healed " << it->value << " HP. Your HP -> " << pHP << "\n";
+        pHP -= kWardenAttackDmg;
+        std::cout << "In the time it took you to eat the whole loaf, the Warden has readied his next attack.\n"
+            << "The Warden pounces for " << kWardenAttackDmg << ". Your HP -> " << pHP << "\n";
+    }
+    else if (name == "Cloak of shadows") {
+        std::cout << "\nThe room is still warm from the fires of the forge. Your cloak will be of no use here.\n";
+        pHP -= kWardenAttackDmg;
+        std::cout << "While you've been digging around in your satchel, the Warden has been readying his next attack.\n"
+            << "The Warden lashes out for " << kWardenAttackDmg << ". Your HP -> " << pHP << "\n";
+    }
+    else {
+        std::cout << "You have managed to hallucinate an object...\n";
+    }
 }
 
 //menu choice 3 - inspect
