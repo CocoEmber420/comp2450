@@ -84,6 +84,7 @@ public:
 
     // -----------------------------------------------------------------
     // The Rule of Three.
+    // (destructor, copy constructor, copy assignment)
     //
     // Once a class owns raw memory (a `new`'d resource it must `delete`),
     // the compiler-generated copy constructor and copy assignment are
@@ -102,8 +103,8 @@ public:
     //
     // TODO Floor 4 (Friday) — change `= default` to `= delete` on both.
     // -----------------------------------------------------------------
-    Chain(const Chain&)            = default;   // TODO Friday: = delete
-    Chain& operator=(const Chain&) = default;   // TODO Friday: = delete
+    Chain(const Chain&)            = delete;   // TODO Friday: = delete
+    Chain& operator=(const Chain&) = delete;   // TODO Friday: = delete
 
     // -----------------------------------------------------------------
     // Inspection
