@@ -152,8 +152,9 @@ public:
     //       More code, but no surprise about why it works.
     //
     // Pick one. Defend it in your lab notes.
-    Chain& operator=(const Chain& /*other*/) {
-        // TODO Friday — copy assignment.
+    Chain& operator=(const Chain& other) {
+        Chain tmp(other);
+        swap(tmp);
         return *this;
     }
 
@@ -240,7 +241,20 @@ public:
     //      If it IS null, the chain is now empty — set tail_ = nullptr too.
     //   5. --size_.
     void pop_front() {
-        // TODO Friday
+        if (head_ == nullptr) {
+            return;
+        }
+        Node* old_head = head_;
+        Node* new_head = old_head->next;
+        delete old_head;
+        head_ = new_head;
+        if (new_head != nullptr) {
+            new_head->prev = nullptr;
+        }
+        else {
+            tail_ = nullptr;
+        }
+        --size_;
     }
 
     // TODO Floor 4½ (Friday) — remove the back node. O(1) BECAUSE of prev.
@@ -256,7 +270,20 @@ public:
     // Question for the lab: why is this O(n) on a singly-linked chain
     // *even if it has a tail_ pointer*?
     void pop_back() {
-        // TODO Friday
+        if (tail_ == nullptr) {
+            return;
+        }
+        Node* old_tail = tail_;
+        Node* new_tail = old_tail->prev;
+        delete old_tail;
+        tail_ = new_tail;
+        if (new_tail != nullptr) {
+            new_tail->next = nullptr;
+        }
+        else {
+            head_ = nullptr;
+        }
+        --size_;
     }
 
     // Walk and delete every node. Floor 4 version — unchanged loop body,
