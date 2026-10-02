@@ -1,0 +1,59 @@
+'this' is a reserved keyword in C++. It's a hidden pointer to the current object
+instance within a class's non-static member functions.
+
+when we call a method on an object, C++ can auto pass the memory address of that
+object into a method as a 'this' pointer
+
+common use cases:
+- resolve name conflicts (disambiguation)
+- return the current object (method chaining)
+- pass the object to an external function
+
+*var dereferences (a var&)
+var& address-of operator
+&var (or int&) reference var
+
+
+CODE:
+
+#include <iostream>
+
+class Player {
+	private: 
+	int health = 50;
+
+	public:
+	//this-> distinguishes the member from the parameter
+	void setHealth(int health) {
+		this->health = health;
+	}
+
+	//*this is the current object. returning current object allows us to chain
+	Player& heal(int amount) {
+		health =+ amount;
+		std::cout << "Healed to " << health << " HP\n";
+		return *this;
+	}
+
+	Player& attack() {
+		std::cout << "Player attacks!\n";
+		return *this;
+	}
+
+	//this lets our lambda access the object's members
+	void celebrate() {
+		auto message = [this]() {
+			std::cout << "Victory with " << health << " HP!\n";
+		};
+		message();
+	}
+};
+
+int main() {
+	Player player;
+
+	player.setHealth(80); //uses this->health
+	player.heal(10).attack(); //each method returns *this
+	player.celebrate(); //lambda captures [this]
+	return 0;
+}
