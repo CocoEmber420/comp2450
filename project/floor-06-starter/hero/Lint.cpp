@@ -46,8 +46,36 @@ namespace dungeon {
 //     }
 //     return s.empty();
 
-bool isBalanced(const std::string& /*input*/) {
-    return false;   // TODO Wednesday
-}
+    bool isBalanced(const std::string& input) {
+        Stack<char> s;
+        for (char c : input) {
+            switch (c) {
+            case '(':
+            case '[':
+            case '{':
+                s.push(c);
+                break;
+            case ')':
+                if (s.empty() || s.top() != '(') {
+                    return false;
+                }
+                s.pop();
+                break;
+            case ']':
+                if (s.empty() || s.top() != '[') {
+                    return false;
+                }
+                s.pop();
+                break;
+            case '}':
+                if (s.empty() || s.top() != '{') {
+                    return false;
+                }
+                s.pop();
+                break;
+            }
+        }
+        return s.empty();
+    }
 
 }  // namespace dungeon
