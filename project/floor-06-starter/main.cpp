@@ -279,7 +279,21 @@ int main() {
                 //
                 // The order matters: bind the reference BEFORE pop().
                 // Once you pop, the Action you were looking at is gone.
-                std::cout << "(undo not yet implemented — TODO Friday in main.cpp)\n";
+                //check if we're empty
+                if (hero.undoStack.empty()) {
+                    std::cout << "Nothing to undo.\n";
+                }
+                else {
+                    //bind a const reference to our top action
+                    const UndoAction& a = hero.undoStack.top();
+                    //now that I have it, I can read everything I need from it
+                    hero.inventory = a.inventorySnapshot;
+                    std::cout << "Undid: " << a.description << "\n";
+                    //add this to the event log
+                    hero.eventLog.push_front("undo (" + a.description + ")");
+                    //pop it
+                    hero.undoStack.pop();
+                }
             }
             else if (cmd == "lint") {
                 if (rest.empty()) {

@@ -39,6 +39,7 @@
 #include <cstddef>
 
 #include "Chain.h"
+#include "Bag.h"
 
 namespace dungeon {
 
