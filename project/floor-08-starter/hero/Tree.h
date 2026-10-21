@@ -158,7 +158,19 @@ public:
     //     }
     std::vector<T> levelOrder() const {
         std::vector<T> out;
-        // TODO Wednesday
+        if (root_ == nullptr) {
+            return out;
+        }
+        Queue<Node*> q;
+        q.enqueue(root_);
+        while (!q.empty()) {
+            Node* cur = q.front();
+            q.dequeue();
+            out.push_back(cur->data);
+            for (std::size_t i = 0; i < cur->children.size(); ++i) {
+                q.enqueue(cur->children[i]);
+            }
+        }
         return out;
     }
 
@@ -257,8 +269,13 @@ private:
     //     for (std::size_t i = 0; i < n->children.size(); ++i)
     //         preOrderInto(n->children[i], out);
     static void preOrderInto(const Node* n, std::vector<T>& out) {
-        (void)n; (void)out;
-        // TODO Wednesday
+        if (n == nullptr) {
+            return;
+        }
+        out.push_back(n->data);
+        for (std::size_t i = 0; i < n->children.size(); ++i) {
+            preOrderInto(n->children[i], out);
+        }
     }
 
     // Recursive search: return the node whose data == value, or nullptr.
