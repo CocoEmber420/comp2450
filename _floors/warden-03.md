@@ -27,14 +27,11 @@ McCown is not here. He said as much at the top of the last stair — *keepers of
 **This page is your Midterm 3.** It replaces the timed paper exam, and it is one job: **follow along with the recorded Warden III videos, building the encounter in your own project as you watch, then submit the code you end up with** — pushed to GitHub and turned in on Canvas. There are no written trials and no in-class quiz. The code you build with the videos is the whole submission.
 
 <div class="callout check" markdown="1">
-<p class="callout-title">The schedule</p>
+<p class="callout-title">When it is due</p>
 
-| Phase | When | What |
-|-------|------|------|
-| **Videos open** | Friday, end of Week 14 — after Floor 11's last class | The Warden III videos become available. Code along any time. |
-| **Due** | Friday of Week 15, **9:00 AM** | Your encounter code pushed to your GitHub fork and submitted on Canvas. |
+The due date is posted on Canvas.
 
-Plan your week. Coding along takes longer than watching — pause whenever the video compiles and runs, and do the same at your keyboard. Several short sittings beat one long night. **Floor 12 (The Labyrinth) opens the same week — and it is the finale.** Do not let the last floor eat your Warden time: the midterm is due Friday morning, the Labyrinth is not. Midterm first, Labyrinth second.
+Plan your week. Coding along takes longer than watching — pause whenever the video compiles and runs, and do the same at your keyboard. Several short sittings beat one long night. **Floor 12 (The Labyrinth) opens the same week — and it is the finale.** Do not let the last floor eat your Warden time. Midterm first, Labyrinth second.
 
 </div>
 
@@ -45,7 +42,7 @@ Plan your week. Coding along takes longer than watching — pause whenever the v
 <div class="character-quote" markdown="1">
 <span class="speaker">Brother Faith stands with you at the gate</span>
 
-Third gate. You have stood at two of these already, and the shape has not changed — a Warden to build into your own game, and then to fight. What changed is the arsenal: five halls of it now — though the Halving Hall and the Balanced Hall are one craft, so four words carry them all — and the Warden wears them against you. Classify. Recall. Ward. Whisper. If those four words live in your fingers by Friday, the stair opens. If they live only in your notes, the hall of masks will see it the moment the first one steps forward.
+Third gate. You have stood at two of these already, and the shape has not changed — a Warden to build into your own game, and then to fight. What changed is the arsenal: five halls of it now — though the Halving Hall and the Balanced Hall are one craft, so four words carry them all — and the Warden wears them against you. Classify. Recall. Ward. Whisper. If those four words live in your fingers by the time you submit, the stair opens. If they live only in your notes, the hall of masks will see it the moment the first one steps forward.
 </div>
 </div>
 
@@ -218,7 +215,7 @@ If all three phases pass at your keyboard, your encounter matches the video's an
 
 ## Submission
 
-**Due 9:00 AM Friday of Week 15.** Late submissions drop one letter grade per day.
+**The due date is posted on Canvas.**
 
 1. **Push to GitHub.** Commit the code you built along with the videos — at minimum `main.cpp`, `battle/Battle.h`, and `battle/Battle.cpp` — and push it to your fork of the course repo.
 2. **Submit on Canvas.** Turn in the Warden III assignment with the link to your GitHub repo.
@@ -281,4 +278,4 @@ Counter by:
 
 ---
 
-*The gate answers one way or the other — by Friday morning of Week 15. The Warden does not announce the result; the Archive stair opens, or it does not. Beyond the stair the last hall waits — the **[Labyrinth]({{ site.baseurl }}/floors/floor-12/)** (Floor 12, graphs), which opens this same week and is the finale; the Queue and the Stack you already built become the two ways to walk it. The Nameless Bard tunes a low string and does not sing your ending yet. He is saving the verse — for the bottom, where no warden stands in the Hold at all, only a last reckoning on paper: the **Architect of Errors**, who has been reading over your shoulder the whole way down.*
+*The gate answers one way or the other. The Warden does not announce the result; the Archive stair opens, or it does not. Beyond the stair the last hall waits — the **[Labyrinth]({{ site.baseurl }}/floors/floor-12/)** (Floor 12, graphs), which opens this same week and is the finale; the Queue and the Stack you already built become the two ways to walk it. The Nameless Bard tunes a low string and does not sing your ending yet. He is saving the verse — for the bottom, where no warden stands in the Hold at all, only a last reckoning on paper: the **Architect of Errors**, who has been reading over your shoulder the whole way down.*

@@ -27,12 +27,9 @@ It does not move *yet*. It does not need to. Four floors built you a hero who ca
 **This page is your Midterm 2.** It replaces the timed paper exam, and it is one job: **follow along with the recorded Warden II videos, building the encounter in your own project as you watch, then submit the code you end up with** — pushed to GitHub and turned in on Canvas. There are no written trials and no in-class quiz. The code you build with the videos is the whole submission.
 
 <div class="callout check" markdown="1">
-<p class="callout-title">The schedule</p>
+<p class="callout-title">When it is due</p>
 
-| Phase | When | What |
-|-------|------|------|
-| **Videos open** | Friday, end of Week 9 — after Floor 7's last class | The Warden II videos become available. Code along any time. |
-| **Due** | Friday of Week 10, **9:00 AM** | Your encounter code pushed to your GitHub fork and submitted on Canvas. |
+The due date is posted on Canvas.
 
 Plan your week. Coding along takes longer than watching — pause whenever the video compiles and runs, and do the same at your keyboard. Several short sittings beat one long night. Floor 8 (Trees) opens the same week; do not let the new floor eat your Warden time.
 </div>
@@ -44,7 +41,7 @@ Plan your week. Coding along takes longer than watching — pause whenever the v
 <div class="character-quote" markdown="1">
 <span class="speaker">Brother Faith stands with you at the gate</span>
 
-Last midterm I asked you to *use* what four floors gave you against one Warden. This midterm I will ask you to *compose* what four floors gave you against more than one foe at a time. Chain. Walk. Echo. Line. If those four words live in your fingers by Friday, you will pass. If they live only in your notes, the marshalling yard will see it the moment the first wave arrives.
+Last midterm I asked you to *use* what four floors gave you against one Warden. This midterm I will ask you to *compose* what four floors gave you against more than one foe at a time. Chain. Walk. Echo. Line. If those four words live in your fingers by the time you submit, you will pass. If they live only in your notes, the marshalling yard will see it the moment the first wave arrives.
 </div>
 </div>
 
@@ -202,7 +199,7 @@ If all three phases pass at your keyboard, your encounter matches the video's an
 
 ## Submission
 
-**Due 9:00 AM Friday of Week 10.** Late submissions drop one letter grade per day.
+**The due date is posted on Canvas.**
 
 1. **Push to GitHub.** Commit the code you built along with the videos — at minimum `main.cpp`, `battle/Battle.h`, `battle/Battle.cpp`, and `hero/UndoAction.h` — and push it to your fork of the course repo.
 2. **Submit on Canvas.** Turn in the Warden II assignment with the link to your GitHub repo.
@@ -265,4 +262,4 @@ Counter by:
 
 ---
 
-*The yard ends one way or the other — by Friday morning of Week 10. The Warden does not announce the result; the inner gate opens, or it does not. Beyond the inner gate, the stair to Floor 8 — the **Hall of Lineages** — climbs back up. McCown is waiting at the top with his bestiary; this time, his entries have children.*
+*The yard ends one way or the other. The Warden does not announce the result; the inner gate opens, or it does not. Beyond the inner gate, the stair to Floor 8 — the **Hall of Lineages** — climbs back up. McCown is waiting at the top with his bestiary; this time, his entries have children.*

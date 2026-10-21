@@ -27,12 +27,9 @@ The shape does not move *yet*. It has no face you can name. It is the **Warden o
 **This page is your Midterm 1.** It replaces the timed paper exam, and it is one job: **follow along with the recorded Warden I videos, building the encounter in your own project as you watch, then submit the code you end up with** — pushed to GitHub and turned in on Canvas. There are no written trials and no in-class quiz. The code you build with the videos is the whole submission.
 
 <div class="callout check" markdown="1">
-<p class="callout-title">The schedule</p>
+<p class="callout-title">When it is due</p>
 
-| Phase | When | What |
-|-------|------|------|
-| **Videos open** | Friday, end of Week 4 — after Floor 3's last class | The Warden I videos become available. Code along any time. |
-| **Due** | Friday of Week 5, **9:00 AM** | Your encounter code pushed to your GitHub fork and submitted on Canvas. |
+The due date is posted on Canvas.
 
 Plan your week. Coding along takes longer than watching — pause whenever the video compiles and runs, and do the same at your keyboard. Several short sittings beat one long night.
 </div>
@@ -44,7 +41,7 @@ Plan your week. Coding along takes longer than watching — pause whenever the v
 <div class="character-quote" markdown="1">
 <span class="speaker">Brother Faith stands with you at the gate</span>
 
-I am not going to make you race a paper exam under my stopwatch. I am going to ask you to *use* what these four floors gave you — in the game you have been building, against the Warden in front of you. Search. Sort. Stamp. Catch. If those four words live in your fingers by Friday, you will pass. If they live only in your notes, the Warden will see it the moment you step on the floor.
+I am not going to make you race a paper exam under my stopwatch. I am going to ask you to *use* what these four floors gave you — in the game you have been building, against the Warden in front of you. Search. Sort. Stamp. Catch. If those four words live in your fingers by the time you submit, you will pass. If they live only in your notes, the Warden will see it the moment you step on the floor.
 </div>
 </div>
 
@@ -185,7 +182,7 @@ If all three phases pass at your keyboard, your encounter matches the video's an
 
 ## Submission
 
-**Due 9:00 AM Friday of Week 5.** Late submissions drop one letter grade per day.
+**The due date is posted on Canvas.**
 
 1. **Push to GitHub.** Commit the code you built along with the videos — at minimum `main.cpp`, `battle/Battle.h`, and `battle/Battle.cpp` — and push it to your fork of the course repo.
 2. **Submit on Canvas.** Turn in the Warden I assignment with the link to your GitHub repo.
@@ -250,4 +247,4 @@ Counter by:
 
 ---
 
-*The battle ends one way or the other — by Friday morning. The Warden does not announce the result; it falls, or you do. Beyond the gate, the stair to Floor 4 — the **Chain Vault** — descends into the dark. Foust is already there with his cart, sorting maps.*
+*The battle ends one way or the other. The Warden does not announce the result; it falls, or you do. Beyond the gate, the stair to Floor 4 — the **Chain Vault** — descends into the dark. Foust is already there with his cart, sorting maps.*
