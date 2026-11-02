@@ -207,8 +207,10 @@ private:
     //     if (n == nullptr) return 0;
     //     return signedHeight(n->left) - signedHeight(n->right);
     static int balanceFactorOf(const Node* n) {
-        (void)n;
-        return 0;   // TODO Monday — stub reports every tree as perfectly level
+        if (n == nullptr) {
+            return 0;
+        }
+        return (signedHeight(n->left) - signedHeight(n->right));
     }
 
     // True iff the subtree at n is height-balanced at EVERY node. Check THIS
@@ -221,8 +223,14 @@ private:
     //     if (bf < -1 || bf > 1) return false;
     //     return isBalancedFrom(n->left) && isBalancedFrom(n->right);
     static bool isBalancedFrom(const Node* n) {
-        (void)n;
-        return true;   // TODO Monday — stub claims every tree is balanced
+        if (n == nullptr) {
+            return true;
+        }
+        const int bf = balanceFactorOf(n);
+        if (bf < -1 || bf > 1) {
+            return false;
+        }
+        return (isBalancedFrom(n->left) && isBalancedFrom(n->right));
     }
 
     // ----- Wednesday: the rotation primitive -------------------------
