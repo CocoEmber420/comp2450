@@ -254,7 +254,10 @@ private:
     //     pivot->right = n;
     //     return pivot;
     static Node* rotateRight(Node* n) {
-        return n;   // TODO Wednesday — stub returns the tree unrotated
+        Node* pivot = n->left;
+        n->left = pivot->right;
+        pivot->right = n;
+        return pivot;
     }
 
     // Left rotation around n — the mirror of rotateRight. n's RIGHT child
@@ -267,7 +270,10 @@ private:
     //     pivot->left = n;
     //     return pivot;
     static Node* rotateLeft(Node* n) {
-        return n;   // TODO Wednesday — stub returns the tree unrotated
+        Node* pivot = n->right;
+        n->right = pivot->left;
+        pivot->left = n;
+        return pivot;
     }
 
     // ----- Friday: pick the rotation ---------------------------------
