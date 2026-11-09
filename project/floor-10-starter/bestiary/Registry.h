@@ -111,8 +111,9 @@ public:
     // TODO Floor 10 (Monday). Stub is empty -> phases 1–6 all FAIL (everything
     // is empty). Monday's first edit lights phase 1.
     void index(const Monster& m) {
-        (void)m;
-        // TODO Monday — populate byName_, weaknesses_, and weaknessCounts_.
+        byName_[m.name] = m;
+        weaknesses_.insert(m.weakness);
+        weaknessCounts_[m.weakness] += 1;
     }
 
     // Return whether a monster with that name is in the registry — using the
@@ -121,8 +122,7 @@ public:
     // TODO Floor 10 (Monday). Sketch:
     //     return byName_.count(name) > 0;     // (or: find(name) != end())
     bool knows(const std::string& name) const {
-        (void)name;
-        return false;   // TODO Monday — stub never knows anyone
+        return (byName_.count(name) > 0);
     }
 
     // ----- Wednesday: three containers, three one-liners -------------
