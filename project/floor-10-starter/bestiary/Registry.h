@@ -135,8 +135,8 @@ public:
     //     auto it = byName_.find(name);
     //     return it == byName_.end() ? nullptr : &it->second;
     const Monster* recall(const std::string& name) const {
-        (void)name;
-        return nullptr;   // TODO Wednesday — stub finds no one
+        auto it = byName_.find(name);
+        return it == byName_.end() ? nullptr : &it->second;
     }
 
     // Return whether ANY monster has weakness w — using set::count on
@@ -146,8 +146,7 @@ public:
     // TODO Floor 10 (Wednesday). Sketch:
     //     return weaknesses_.count(w) > 0;
     bool hasWeakness(const std::string& w) const {
-        (void)w;
-        return false;   // TODO Wednesday — stub claims nothing is weak to anything
+        return weaknesses_.count(w) > 0;
     }
 
     // Return how many monsters share weakness w, or 0 if none — by reading
@@ -158,8 +157,8 @@ public:
     //     auto it = weaknessCounts_.find(w);
     //     return it == weaknessCounts_.end() ? 0 : it->second;
     int countWeakness(const std::string& w) const {
-        (void)w;
-        return 0;   // TODO Wednesday — stub counts nothing
+        auto it = weaknessCounts_.find(w);
+        return it == weaknessCounts_.end() ? 0 : it->second;
     }
 
     // ----- Friday: mutate, staying consistent ------------------------
